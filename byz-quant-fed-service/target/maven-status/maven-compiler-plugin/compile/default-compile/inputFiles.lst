@@ -1,0 +1,12 @@
+/Users/byz/projeler/byz-quant/byz-quant-fed-service/src/main/java/com/byzquant/fed/FedServiceApplication.java
+/Users/byz/projeler/byz-quant/byz-quant-fed-service/src/main/java/com/byzquant/fed/adapters/persistence/FedCategoryEntity.java
+/Users/byz/projeler/byz-quant/byz-quant-fed-service/src/main/java/com/byzquant/fed/adapters/persistence/FedCategoryRepository.java
+/Users/byz/projeler/byz-quant/byz-quant-fed-service/src/main/java/com/byzquant/fed/adapters/persistence/FedPersistenceAdapter.java
+/Users/byz/projeler/byz-quant/byz-quant-fed-service/src/main/java/com/byzquant/fed/adapters/rest/FedCategoryResponse.java
+/Users/byz/projeler/byz-quant/byz-quant-fed-service/src/main/java/com/byzquant/fed/adapters/rest/FedRestAdapter.java
+/Users/byz/projeler/byz-quant/byz-quant-fed-service/src/main/java/com/byzquant/fed/adapters/web/FedWebAdapter.java
+/Users/byz/projeler/byz-quant/byz-quant-fed-service/src/main/java/com/byzquant/fed/config/FedConfig.java
+/Users/byz/projeler/byz-quant/byz-quant-fed-service/src/main/java/com/byzquant/fed/domain/FedCategory.java
+/Users/byz/projeler/byz-quant/byz-quant-fed-service/src/main/java/com/byzquant/fed/domain/FedCategoryService.java
+/Users/byz/projeler/byz-quant/byz-quant-fed-service/src/main/java/com/byzquant/fed/ports/FedDataPort.java
+/Users/byz/projeler/byz-quant/byz-quant-fed-service/src/main/java/com/byzquant/fed/ports/FedPersistencePort.java

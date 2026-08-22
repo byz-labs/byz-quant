@@ -1,0 +1,47 @@
+spring:
+  profiles:
+    active: local
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/byz_quant
+    username: "postgres"
+    password: "postgrespassword"
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+fed:
+  api:
+    # Hatalı olan stlouisfed.org adresini, Postman'deki gerçek adrese çektik:
+    base-url: "https://api.stlouisfed.org/fred"
+    key: "88d94199bc61b2ae8ceb4859ecccf96b"
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  datasource:
+    url: jdbc:h2:mem:byz_quant_test;DB_CLOSE_DELAY=-1
+    username: "sa"
+    password: ""
+    driver-class-name: org.h2.Driver
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.results: TRACE
