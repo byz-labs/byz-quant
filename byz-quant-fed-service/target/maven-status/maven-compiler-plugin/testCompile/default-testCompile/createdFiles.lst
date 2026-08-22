@@ -1,0 +1,5 @@
+com/byzquant/fed/FedCategoryUseCaseTest.class
+com/byzquant/fed/FedRestAdapterTest.class
+com/byzquant/fed/FedCategoryTest.class
+com/byzquant/fed/FedPersistenceAdapterTest.class
+com/byzquant/fed/FedWebAdapterTest.class
