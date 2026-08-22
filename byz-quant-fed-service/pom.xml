@@ -111,6 +111,11 @@
             <artifactId>jackson-databind</artifactId>
             <!-- Sürüm numarasını sildik çünkü Spring Boot Parent bunu otomatik yönetir -->
         </dependency>
+        <plugin>
+            <groupId>org.sonarsource.scanner.maven</groupId>
+            <artifactId>sonar-maven-plugin</artifactId>
+            <version>3.11.0.3922</version>
+        </plugin>
 
     </dependencies>
 
