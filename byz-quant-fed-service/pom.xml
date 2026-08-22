@@ -154,14 +154,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.5.2</version>
+                <version>3.2.5</version> <!-- Güncel ve kararlı sürüm -->
                 <configuration>
-                    <argLine>
-                        --enable-native-access=ALL-UNNAMED
-                    </argLine>
+                    <!-- KESİN ÇÖZÜM: JaCoCo ajanının topladığı test verilerini surefire
+                    koşturucusuna aktaran kritik satır -->
+                    <argLine>@{argLine}</argLine>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 </project>
