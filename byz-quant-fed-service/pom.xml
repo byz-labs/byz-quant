@@ -24,6 +24,10 @@
         <jacoco.version>0.8.15</jacoco.version>
         <!-- Mockito'nun en güncel ve kararlı sürümünü zorunlu kılıyoruz -->
         <mockito.version>5.14.2</mockito.version>
+        <sonar.sources>src/main/java</sonar.sources>
+        <sonar.tests>src/test/java</sonar.tests>
+        <sonar.java.binaries>target/classes</sonar.java.binaries>
+        <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
     <dependencies>
