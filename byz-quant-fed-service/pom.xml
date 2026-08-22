@@ -118,6 +118,15 @@
         </dependency>
     </dependencies>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>sonar-snapshots</id>
+            <url>https://sonatype.org</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
     <build>
         <plugins>
             <plugin>
@@ -132,16 +141,8 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <!-- Java 26 bytecode (major 70) uyumluluğu barındıran en güncel ara sürüm -->
-                <version>0.8.12</version>
-                <configuration>
-                    <!-- Java 26'nın ürettiği bazı sentetik record metotlarını analizin dışında
-                    tutarak 
-             major version 70 çökmesini engeller ve %99 barajımızı korur -->
-                    <excludes>
-                        <exclude>com/byzquant/fed/domain/FedCategory.class</exclude>
-                    </excludes>
-                </configuration>
+                <!-- KESİN ÇÖZÜM: Java 26 (Major 70) desteği olan en güncel JaCoCo motoru -->
+                <version>0.8.13-SNAPSHOT</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
