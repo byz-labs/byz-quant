@@ -44,4 +44,22 @@ class FedWebAdapterTest {
                 .andExpect(jsonPath("$[1].id").value(20L))
                 .andExpect(jsonPath("$[1].name").value("Interest Rates"));
     }
+
+    @Test
+    void shouldReturnRelatedCategoriesJson_WhenCategoryExists() throws Exception {
+        // Given
+        Long categoryId = 125L;
+        FedCategory related1 = new FedCategory(10L, "National Accounts", java.util.Optional.empty());
+
+        org.mockito.Mockito.when(fedCategoryService.getRelatedCategories(categoryId))
+                .thenReturn(java.util.List.of(related1));
+
+        // When & Then (HTTP GET /categories/{id}/related çağrısını denetliyoruz)
+        mockMvc.perform(get("/api/v1/fed/categories/" + categoryId + "/related"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[0].id").value(10L))
+                .andExpect(jsonPath("$[0].name").value("National Accounts"));
+    }
+
 }
