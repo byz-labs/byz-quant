@@ -34,12 +34,9 @@ jobs:
 
       # Yan dallarda (PR aşamasında) sadece standart 'mvn clean verify' koşacak, Sonar'ı zorlamayacak.
       - name: Build and Run Tests with JaCoCo Coverage
-        working-directory: byz-quant-fed-service
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        # Sadece temiz 'mvn clean verify sonar:sonar' koşturuyoruz. 
-        # JaCoCo 0.8.15 zaten raporu basacak, Sonar da otomatik yakalayacak!
         run: |
           mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
             -Dsonar.projectKey=byzquant_fed-service \
