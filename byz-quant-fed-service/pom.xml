@@ -29,11 +29,7 @@
         <sonar.java.binaries>target/classes</sonar.java.binaries>
         <sonar.organization>byz-labs</sonar.organization>
         <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-        <sonar.coverage.exclusions>
-            **/adapters/persistence/*Entity*,
-            **/adapters/rest/*Response*,
-            **/adapters/web/*Response*
-        </sonar.coverage.exclusions>
+        <sonar.coverage.exclusions>**/adapters/persistence/*Entity*,**/adapters/rest/*Response*,**/adapters/web/*Response*</sonar.coverage.exclusions>
     </properties>
 
     <dependencies>
