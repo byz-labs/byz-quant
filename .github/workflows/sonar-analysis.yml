@@ -38,13 +38,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        # Sadece temiz 'mvn clean verify sonar:sonar' koşturuyoruz. 
+        # JaCoCo 0.8.15 zaten raporu basacak, Sonar da otomatik yakalayacak!
         run: |
-          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-              -Dmaven.compiler.release=21 \
-              -Dsonar.projectKey=byzquant_fed-service \
-              -Dsonar.organization=byz-labs \
-              -Dsonar.host.url=https://sonarcloud.io
-          else
-            mvn clean verify -Dmaven.compiler.release=21
-          fi
+          mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+            -Dsonar.projectKey=byzquant_fed-service \
+            -Dsonar.organization=byz-labs \
+            -Dsonar.host.url=https://sonarcloud.io
