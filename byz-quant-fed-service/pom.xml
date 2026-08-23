@@ -117,16 +117,6 @@
             <!-- Sürüm numarasını sildik çünkü Spring Boot Parent bunu otomatik yönetir -->
         </dependency>
     </dependencies>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>sonar-snapshots</id>
-            <url>https://sonatype.org</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
     <build>
         <plugins>
             <plugin>
