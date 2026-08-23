@@ -34,11 +34,14 @@ jobs:
 
       # Yan dallarda (PR aşamasında) sadece standart 'mvn clean verify' koşacak, Sonar'ı zorlamayacak.
       - name: Build and Run Tests with JaCoCo Coverage
+        working-directory: byz-quant-fed-service
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        # KESİN ÇÖZÜM: Filtreyi pom.xml'den söküp doğrudan komut satırından Sonar'ın kalbine çakıyoruz
         run: |
           mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
             -Dsonar.projectKey=byzquant_fed-service \
             -Dsonar.organization=byz-labs \
-            -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.coverage.exclusions="**/adapters/persistence/*Entity*,**/adapters/rest/*Response*,**/adapters/web/*Response*"
