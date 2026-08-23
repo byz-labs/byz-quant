@@ -32,7 +32,6 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
 
-      # KESİN ÇÖZÜM: Koşul ekledik (if). Sadece 'main' daldaysak Sonar analizini tetikliyoruz.
       # Yan dallarda (PR aşamasında) sadece standart 'mvn clean verify' koşacak, Sonar'ı zorlamayacak.
       - name: Build and Run Tests with JaCoCo Coverage
         working-directory: byz-quant-fed-service
