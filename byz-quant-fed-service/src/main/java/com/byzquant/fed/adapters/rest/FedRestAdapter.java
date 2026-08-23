@@ -58,4 +58,16 @@ public class FedRestAdapter implements FedDataPort {
     private FedCategory toDomain(FedCategoryResponse.CategoryDto dto) {
         return new FedCategory(dto.id(), dto.name(), Optional.ofNullable(dto.parentId()));
     }
+
+        @Override
+    public List<FedCategory> fetchRelatedCategories(Long categoryId) {
+        return Optional.ofNullable(categoryId)
+            .flatMap(cId -> executeGetRequest("/category/related", cId)) // Jenerik motoru aynen kullandık!
+            .stream()
+            .flatMap(response -> Optional.ofNullable(response.categories()).stream())
+            .flatMap(List::stream)
+            .map(this::toDomain)
+            .toList();
+    }
+
 }

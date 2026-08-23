@@ -36,4 +36,19 @@ public class FedCategoryService {
                 .orElse(List.of()); // 4. Null veya hata durumunda güvenli boş liste dön
     }
 
+        //İlişkili kategorileri çeker, ara tablo bağlarını kurar ve listeyi döner
+    public List<FedCategory> getRelatedCategories(Long categoryId) {
+        return Optional.ofNullable(categoryId)
+            .map(fedDataPort::fetchRelatedCategories)
+            .map(list -> {
+                // Her bir ilişkili kategorinin kendisini ana tabloya kaydet/güncelle
+                fedPersistencePort.saveAll(list);
+                
+                // Ara tabloya (fed_category_relations) aralarındaki yatay bağları mühürle
+                list.forEach(related -> fedPersistencePort.saveRelation(categoryId, related.id()));
+                return list;
+            })
+            .orElse(List.of());
+    }
+
 }

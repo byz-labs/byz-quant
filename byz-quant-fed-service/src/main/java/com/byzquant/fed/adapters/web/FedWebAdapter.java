@@ -1,6 +1,5 @@
 package com.byzquant.fed.adapters.web;
 
-import com.byzquant.fed.domain.FedCategory;
 import com.byzquant.fed.domain.FedCategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,15 +26,26 @@ public class FedWebAdapter {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // YENİ: Alt ağaç hiyerarşisini liste halinde Postman'e uçuran fonksiyonel endpoint
+    //Alt ağaç hiyerarşisini liste halinde Postman'e uçuran fonksiyonel endpoint
     @GetMapping("/{id}/children")
     public ResponseEntity<List<FedCategoryWebResponse>> getChildrenByParentId(@PathVariable Long id) {
         List<FedCategoryWebResponse> responses = fedCategoryService.getChildrenCategories(id).stream()
                 .map(category -> new FedCategoryWebResponse(category.id(), category.name()))
                 .toList();
-                
+
         return ResponseEntity.ok(responses);
     }
 
-    private record FedCategoryWebResponse(Long id, String name) {}
+    //Yatay korelasyon listesini dış dünyaya sunan fonksiyonel endpoint
+    @GetMapping("/{id}/related")
+    public ResponseEntity<List<FedCategoryWebResponse>> getRelatedByCategoryId(@PathVariable Long id) {
+        List<FedCategoryWebResponse> responses = fedCategoryService.getRelatedCategories(id).stream()
+                .map(category -> new FedCategoryWebResponse(category.id(), category.name()))
+                .toList();
+
+        return ResponseEntity.ok(responses);
+    }
+
+    private record FedCategoryWebResponse(Long id, String name) {
+    }
 }

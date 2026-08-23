@@ -11,9 +11,11 @@ import java.util.Optional;
 public class FedPersistenceAdapter implements FedDataPort, FedPersistencePort {
 
     private final FedCategoryRepository repository;
+    private final FedCategoryRelationRepository relationRepository; // Yeni Repository Enjeksiyonu
 
-    public FedPersistenceAdapter(FedCategoryRepository repository) {
+    public FedPersistenceAdapter(FedCategoryRepository repository, FedCategoryRelationRepository relationRepository) {
         this.repository = repository;
+        this.relationRepository = relationRepository;
     }
 
     @Override
@@ -22,8 +24,7 @@ public class FedPersistenceAdapter implements FedDataPort, FedPersistencePort {
             .map(domain -> new FedCategoryEntity(
                 domain.id(),
                 domain.name(),
-                // KESİN ÇÖZÜM: Optional paketini düzgünce patlatıp ham Long değerini alıyoruz
-                domain.parentId().orElse(null) 
+                domain.parentId().orElse(null)
             ))
             .ifPresent(repository::save);
     }
@@ -36,11 +37,18 @@ public class FedPersistenceAdapter implements FedDataPort, FedPersistencePort {
                 .map(domain -> new FedCategoryEntity(
                     domain.id(),
                     domain.name(),
-                    // KESİN ÇÖZÜM: Toplu kayıtta da Optional sarmalından ham Long veriyi çıkarıyoruz
-                    domain.parentId().orElse(null) 
+                    domain.parentId().orElse(null)
                 ))
                 .toList())
             .ifPresent(repository::saveAll);
+    }
+
+    //İki kategori arasındaki yatay ilişkiyi ara tabloya yazar
+    @Override
+    public void saveRelation(Long categoryId, Long relatedCategoryId) {
+        if (categoryId != null && relatedCategoryId != null) {
+            relationRepository.save(new FedCategoryRelationEntity(categoryId, relatedCategoryId));
+        }
     }
 
     @Override
@@ -55,6 +63,12 @@ public class FedPersistenceAdapter implements FedDataPort, FedPersistencePort {
 
     @Override
     public List<FedCategory> fetchChildrenByParentId(Long parentId) {
+        return List.of();
+    }
+
+    // YENİ: Arayüz sözleşmesini tamamlamak için eklenen boş gövde
+    @Override
+    public List<FedCategory> fetchRelatedCategories(Long categoryId) {
         return List.of();
     }
 }
