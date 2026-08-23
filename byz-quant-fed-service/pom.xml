@@ -141,8 +141,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <!-- KESİN ÇÖZÜM: Java 26 bytecode formatını resmi destekleyen kararlı ana sürüm -->
-                <version>0.8.15</version>
+                <version>0.8.12</version> <!-- En stabil sürüme sabitledik -->
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
