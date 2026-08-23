@@ -28,7 +28,7 @@
         <sonar.tests>src/test/java</sonar.tests>
         <sonar.java.binaries>target/classes</sonar.java.binaries>
         <sonar.organization>byz-labs</sonar.organization>
-        <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
     <dependencies>
@@ -117,16 +117,6 @@
             <!-- Sürüm numarasını sildik çünkü Spring Boot Parent bunu otomatik yönetir -->
         </dependency>
     </dependencies>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>sonar-snapshots</id>
-            <url>https://sonatype.org</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
     <build>
         <plugins>
             <plugin>
@@ -141,7 +131,8 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.12</version> <!-- En stabil sürüme sabitledik -->
+                <!-- KESİN ÇÖZÜM: Java 26 bytecode formatını resmi olarak tanıyan en güncel sürüm -->
+                <version>0.8.15</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
