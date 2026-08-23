@@ -118,6 +118,15 @@
         </dependency>
     </dependencies>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>sonar-snapshots</id>
+            <url>https://sonatype.org</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
     <build>
         <plugins>
             <plugin>
@@ -132,16 +141,14 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.12</version> <!-- Java 26 ve Spring Boot 4.x ile tam uyumlu güncel sürüm -->
+                <version>0.8.12</version> <!-- En stabil sürüme sabitledik -->
                 <executions>
-                    <!-- 1. Testler koşarken arka planda veri toplayacak ajanı hazırlar -->
                     <execution>
                         <id>prepare-agent</id>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
                     </execution>
-                    <!-- 2. Testler bittiği an Sonar'ın okuyacağı o jacoco.xml raporunu üretir -->
                     <execution>
                         <id>report</id>
                         <phase>verify</phase>
@@ -154,14 +161,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.5.2</version>
+                <version>3.2.5</version> <!-- Güncel ve kararlı sürüm -->
                 <configuration>
-                    <argLine>
-                        --enable-native-access=ALL-UNNAMED
-                    </argLine>
+                    <!-- KESİN ÇÖZÜM: JaCoCo ajanının topladığı test verilerini surefire
+                    koşturucusuna aktaran kritik satır -->
+                    <argLine>@{argLine}</argLine>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 </project>

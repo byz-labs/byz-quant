@@ -42,9 +42,10 @@ jobs:
         run: |
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
             mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+              -Dmaven.compiler.release=21 \
               -Dsonar.projectKey=byzquant_fed-service \
               -Dsonar.organization=byz-labs \
               -Dsonar.host.url=https://sonarcloud.io
           else
-            mvn clean verify
+            mvn clean verify -Dmaven.compiler.release=21
           fi
