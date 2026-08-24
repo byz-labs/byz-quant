@@ -9,4 +9,6 @@ public interface FedDataPort {
     
     // YENİ: Belirli bir üst kategoriye ait tüm alt çocukları liste olarak getirir
     List<FedCategory> fetchChildrenByParentId(Long parentId);
+
+    List<FedCategory> fetchRelatedCategories(Long categoryId);
 }
