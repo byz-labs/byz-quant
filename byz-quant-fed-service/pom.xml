@@ -1,190 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://apache.org"
-    xmlns:xsi="http://w3.org"
+<project xmlns="http://apache.org" xmlns:xsi="http://w3.org"
     xsi:schemaLocation="http://apache.org https://apache.org">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.1.1</version> <!-- Java 26 uyumlu stabil Spring Boot sürümü -->
-
+        <version>4.1.1</version> <!-- Java 26 bytecode ve GraalVM ile tam uyumlu kararlı çekirdek -->
         <relativePath />
     </parent>
 
     <groupId>com.byzquant</groupId>
     <artifactId>fed-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>byz-quant-fed-service</name>
-    <description>BYZ Quant FED Data Analysis Library</description>
+    <name>fed-service</name>
+    <description>BYZ Quant Financial FED API MVC Persistence Integration Service</description>
 
     <properties>
         <java.version>26</java.version>
-        <!-- JaCoCo sürümünü Java 26 bytecode (major 70) uyumlu sürüme yükselttik -->
-        <jacoco.version>0.8.15</jacoco.version>
-        <!-- Mockito'nun en güncel ve kararlı sürümünü zorunlu kılıyoruz -->
-        <mockito.version>5.14.2</mockito.version>
-        <sonar.sources>src/main/java</sonar.sources>
-        <sonar.tests>src/test/java</sonar.tests>
-        <sonar.java.binaries>target/classes</sonar.java.binaries>
-        <sonar.organization>byz-labs</sonar.organization>
-        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-        <sonar.coverage.exclusions>**/adapters/persistence/*Entity*,**/adapters/rest/*Response*,**/adapters/web/*Response*</sonar.coverage.exclusions>
     </properties>
 
     <dependencies>
-        <!-- Spring Boot Temel Bağımlılıkları -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <!-- WebClient ve fonksiyonel HTTP çağrıları için gerekli reaktif bağımlılık -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webflux</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.kafka</groupId>
-            <artifactId>spring-kafka</artifactId>
-        </dependency>
+        <!-- LOKALDE ANLIK KOD DEĞİŞİKLİKLERİNİ YAKALAYAN MOTOR (Hot Reload) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
-        <!-- Testler sırasında gerçek DB yerine hafızada çalışacak izole DB -->
+
+        <!-- 1. ÇEKİRDEK WEB & REAKTİF MOTOR (WebClient İçin) -->
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>test</scope>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!-- Veritabanı Sürücüsü -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+
+        <!-- 2. VERİTABANI & VERİ AMBARI KATMANI (PostgreSQL) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <!-- TEST BAĞIMLILIKLARI (TDD için Vazgeçilmezler) -->
+
+        <!-- 3. MİMARİ HAFİFLETİCİ VE GELİŞTİRİCİ KONFORU (Lombok) -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- 4. JSON STANDARTLAŞTIRICI VE ADLANDIRMA STRATEJİSİ (Jackson) -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
+        <!-- 5. KALİTE KAPISI VE GEÇİCİ BELLEK TEST MOTORLARI -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework.kafka</groupId>
-            <artifactId>spring-kafka-test</artifactId>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
             <scope>test</scope>
-        </dependency>
-        <!-- MacOS Apple Silicon (M serisi) mimarisinde yerel DNS çözücü hatasını gideren
-        düzeltilmiş bağımlılık -->
-        <!-- Apple Silicon Mac'lerde Rosetta gerektirmeden yerel çalışan kararlı DNS çözücü -->
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-resolver-dns-native-macos</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <!-- JPA Test anotasyonları ve H2/PostgreSQL test otomasyonları için gerekli bağımlılık -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-test-autoconfigure</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- Spring Boot 4.x Modüler JPA Test Starter Paketi -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa-test</artifactId>
-            <scope>test</scope>
-        </dependency><!-- Spring Boot 4.x Modüler Web/MVC Test
-        Altyapısı -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webmvc-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- JSON ve Java Nesneleri Arasındaki snake_case/camelCase Dönüşümleri İçin -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <!-- Sürüm numarasını sildik çünkü Spring Boot Parent bunu otomatik yönetir -->
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
+            <!-- LOMBOK & SPRING BOOT DERLEME ENTEGRASYONU -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.11.0.3922</version>
-            </plugin>
+
+            <!-- KATI JAVA 26 STANDART DERLEME MOTORU -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version> <!-- Kararlı güncel derleyici -->
+                <version>3.13.0</version>
                 <configuration>
-                    <!-- KESİN ÇÖZÜM: JaCoCo'nun major 70 çökmesini engelleyen, derleyiciyi Java 21
-                    uyumluluğuna zorlayan kurumsal bayrak -->
-                    <release>21</release>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.12</version>
-                <executions>
-                    <execution>
-                        <id>prepare-agent</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                        <configuration>
-                            <includes>
-                                <include>com.byzquant.fed.*</include>
-                            </includes>
-                            <!-- KESİN ÇÖZÜM: Hem Hibernate hem Mockito proxy'lerini, isminde dolar
-                            ($) işareti geçen tüm sentetik sızıntıları tek kalemde bitiren filtre -->
-                            <excludes>
-                                <exclude>*$*</exclude>
-                            </excludes>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                        <configuration>
-                            <includes>
-                                <include>com/byzquant/fed/**</include>
-                            </includes>
-                            <excludes>
-                                <exclude>**/*$*</exclude>
-                            </excludes>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.2.5</version> <!-- Güncel ve kararlı sürüm -->
-                <configuration>
-                    <!-- KESİN ÇÖZÜM: JaCoCo ajanının topladığı test verilerini surefire
-                    koşturucusuna aktaran kritik satır -->
-                    <argLine>@{argLine}</argLine>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
         </plugins>
