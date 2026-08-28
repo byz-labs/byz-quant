@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: fed-service
+  datasource:
+    # Orijinal Docker tanımındaki veritabanı adına (byz_quant) göre url güncellendi şef
+    url: jdbc:postgresql://localhost:5432/byz_quant
+    username: postgres
+    password: postgrespassword
+    driver-class-name: org.postgresql.Driver
+  
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update # Tablolar ve indeksler yoksa kendi kendine küt diye oluşturur!
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8080
+
+# Projemizin tüm özel entegrasyon ayarları tek bir hiyerarşide
+fed:
+  api:
+    key: "88d94199bc61b2ae8ceb4859ecccf96b"
+    base-url: "https://api.stlouisfed.org/fred"
